@@ -1,6 +1,7 @@
-# Path Checker
+# Path Checker Bookmarklet
 
 Path Checker is a lightweight JavaScript bookmarklet tool designed to compare and validate paths between US and KR pages.
+<img width="800" alt="Path Checker Bookmarklet Preview" src="https://github.com/hannahiohc/path-checker-bookmarklet/assets/81858017/c549671f-e949-4872-8ff3-315716df7523">
 
 ## How to Use
 1. Copy and paste the following code to your bookmarks bar.
