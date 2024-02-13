@@ -30,7 +30,7 @@ javascript:(function() {
                     const matches = path.match(regex);
                     if (matches && matches.length > 1) {
                         const highlightedText = matches[1];
-                        const highlightedPath = path.replace(highlightedText + '/', `<span style="background-color: #ffe91d;">${highlightedText}</span>/built/`);
+                        const highlightedPath = path.replace('/' + highlightedText + '/built/', `/<span style="background-color: #ffe91d;">${highlightedText}</span>/built/`);
                         paths[paths.length - 1] = highlightedPath;
                     }
                 }
@@ -80,15 +80,21 @@ javascript:(function() {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', modifiedUrl, true);
     xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            const parser = new DOMParser();
-            const modifiedDoc = parser.parseFromString(xhr.responseText, 'text/html');
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                const parser = new DOMParser();
+                const modifiedDoc = parser.parseFromString(xhr.responseText, 'text/html');
+                modifiedPaths.cssPaths = extractPaths(modifiedDoc, 'css');
+                modifiedPaths.jsPaths = extractPaths(modifiedDoc, 'js');
+            }
             currentPaths.cssPaths = extractPaths(document, 'css');
             currentPaths.jsPaths = extractPaths(document, 'js');
-            modifiedPaths.cssPaths = extractPaths(modifiedDoc, 'css');
-            modifiedPaths.jsPaths = extractPaths(modifiedDoc, 'js');
-
             createOutputDiv();
+
+            if (xhr.status !== 200) {
+                const otherList = document.getElementById('otherList');
+                otherList.innerHTML = '<li>Page Not Found.</li>';
+            };
         }
     };
 
